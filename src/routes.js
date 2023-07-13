@@ -37,8 +37,8 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 import Billing from "layouts/billing";
-import Tareas from "layouts/tareas";
-import InformacionTarea from "layouts/tareas";
+import Tasks from "layouts/tasks";
+
 import VirtualReality from "layouts/virtual-reality";
 import RTL from "layouts/rtl";
 import Profile from "layouts/profile";
@@ -52,11 +52,11 @@ const routes = [
   { type: "title", title: "Retos", key: "retos" },
   {
     type: "route",
-    name: "Tareas",
-    key: "tareas",
-    route: "/tareas",
+    name: "Tasks",
+    key: "tasks",
+    route: "/tasks",
     icon: <ArgonBox component="i" color="info" fontSize="14px" className="ni ni-app" />,
-    component: <Tareas />
+    component: <Tasks />
   },
   // {
   //   type: "route",

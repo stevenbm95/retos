@@ -27,7 +27,7 @@ import ArgonButton from "components/ArgonButton";
 // Argon Dashboard 2 MUI contexts
 import { useArgonController } from "context";
 
-function Tarea({ name, company, email, vat, noGutter }) {
+function Task({ name, company, email, vat, noGutter }) {
   const [controller] = useArgonController();
   const { darkMode } = controller;
 
@@ -61,7 +61,7 @@ function Tarea({ name, company, email, vat, noGutter }) {
         </ArgonBox>
         <ArgonBox mb={1} lineHeight={0}>
           <ArgonTypography variant="caption" color="text">
-            Tarea:&nbsp;&nbsp;&nbsp;
+           Task:&nbsp;&nbsp;&nbsp;
             <ArgonTypography variant="caption" fontWeight="medium" textTransform="capitalize">
               {company}
             </ArgonTypography>
@@ -102,12 +102,12 @@ function Tarea({ name, company, email, vat, noGutter }) {
 }
 
 // Setting default values for the props of Bill
-Tarea.defaultProps = {
+Task.defaultProps = {
   noGutter: false,
 };
 
 // Typechecking props for the Bill
-Tarea.propTypes = {
+Task.propTypes = {
   name: PropTypes.string.isRequired,
   company: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
@@ -115,4 +115,4 @@ Tarea.propTypes = {
   noGutter: PropTypes.bool,
 };
 
-export default Tarea;
+export default Task;

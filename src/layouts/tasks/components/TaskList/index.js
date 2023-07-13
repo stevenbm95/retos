@@ -30,9 +30,9 @@ import borders from "assets/theme/base/borders";
 // Images
 import masterCardLogo from "assets/images/logos/mastercard.png";
 import visaLogo from "assets/images/logos/visa.png";
-import CrearTarea from "../CrearTarea";
+import CrearTarea from "../CreateTask";
 
-function ListaTareas() {
+function TaskList({tasks}) {
   const { borderWidth, borderColor } = borders;
 
   return (
@@ -41,37 +41,44 @@ function ListaTareas() {
         <ArgonTypography variant="h6"  fontWeight="medium">
           Lista De Tareas
         </ArgonTypography>
-     
+  
         <ArgonBox p={2}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={12}>
-            <ArgonBox
-              border={`${borderWidth[1]} solid ${borderColor}`}
-              borderRadius="lg"
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              p={3}
-            >
-              <ArgonBox  />
-                <ArgonTypography variant="h6" fontWeight="medium">
-                  Tarea de prueba
-                </ArgonTypography>
-                  <ArgonBox ml="auto" lineHeight={0}>
-                    <Tooltip title="Edit Card" placement="top">
-                      <Icon sx={{ cursor: "pointer" }} fontSize="small">
-                        edit
-                      </Icon>
-                    </Tooltip>
-                </ArgonBox>
-              </ArgonBox>
-            </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={12}>
+              {
+                  tasks.map(({id, name})=>(
+                    <ArgonBox
+                    border={`${borderWidth[1]} solid ${borderColor}`}
+                    borderRadius="lg"
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    p={2}
+                    key={id}
+                    sx={{ cursor: "pointer" }}
+                  >
+                      <ArgonBox ml="auto" lineHeight={0}>
+                        <Tooltip title="Select Task" placement="top">
+                            <Icon fontSize="small">
+                              check
+                            </Icon>
+                        </Tooltip>
+                      </ArgonBox> 
+                        <ArgonTypography variant="h6" fontWeight="medium" >
+                        {name}
+                        </ArgonTypography>                  
+                                      
+                </ArgonBox> 
+                  ))
+              }
+        
+              </Grid>
           </Grid>
         </ArgonBox>
         
-      <ArgonButton variant="gradient" color="dark" >
-          <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-          &nbsp;Agregar Nueva Tarea
+        <ArgonButton variant="gradient" color="dark" >
+              <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+              &nbsp;Agregar Nueva Tarea
         </ArgonButton>
       </ArgonBox>
 
@@ -79,4 +86,4 @@ function ListaTareas() {
   );
 }
 
-export default ListaTareas;
+export default TaskList;

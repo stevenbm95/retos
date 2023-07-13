@@ -20,14 +20,25 @@ import Grid from "@mui/material/Grid";
 import ArgonBox from "components/ArgonBox";
 
 // Billing page components
-import BaseLayout from "layouts/tareas/components/BaseLayout";
-import ListaTareas from "layouts/tareas/components/ListaTareas";
-import InformacionTarea from "layouts/tareas/components/InformacionTarea";
-import CrearTarea from "./components/CrearTarea";
+import BaseLayout from "layouts/tasks/components/BaseLayout";
+import TaskList from "layouts/tasks/components/TaskList";
+import TaskInformation from "layouts/tasks/components/TaskInformation";
+import CreateTask from "../tasks/components/CreateTask";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import { useState } from "react";
 
-function Tareas() {
+
+function Tasks() {
+
+  const [tasks, setTasks] = useState([])
+
+  
+ 
+  const createTask = (task) => {
+      setTasks([...tasks,task])
+  }
+
   return (
     <DashboardLayout >
     <DashboardNavbar />
@@ -37,13 +48,13 @@ function Tareas() {
           <Grid container display="flex" justifyContent="space-around" alignItems="start">
      
                 <Grid item  xs={12}  md={5}>
-                  <ListaTareas />
+                  <TaskList tasks={tasks}/>
                 </Grid>         
-                <Grid xs={12} md={5}>
-                  <InformacionTarea />
+                <Grid item xs={12} md={5}>
+                  <TaskInformation />
                 </Grid>
-                <Grid xs={12} md={5}>
-                   <CrearTarea />
+                <Grid item xs={12} md={5}>
+                   <CreateTask createTask={createTask}/>
                 </Grid>
 
                 
@@ -54,4 +65,4 @@ function Tareas() {
   );
 }
 
-export default Tareas;
+export default Tasks;

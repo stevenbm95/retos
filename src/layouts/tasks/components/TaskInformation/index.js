@@ -21,19 +21,19 @@ import ArgonBox from "components/ArgonBox";
 import ArgonTypography from "components/ArgonTypography";
 
 // Billing page components
-import Tarea from "layouts/tareas/components/Tarea";
+import Task from "layouts/tasks/components/Task";
 
-function InformacionTarea() {
+function TaskInformation() {
   return (
     <Card id="delete-account">
       <ArgonBox pt={3} px={2}>
         <ArgonTypography variant="h6" textTransform="capitalize" fontWeight="medium">
-          Información de tarea
+        Task Information
         </ArgonTypography>
       </ArgonBox>
       <ArgonBox pt={1} pb={2} px={2}>
         <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Tarea
+          <Task
             name="Aprender React"
             company="Aprender React"
             email="Aplicar Cambios en la plantilla"
@@ -45,4 +45,4 @@ function InformacionTarea() {
   );
 }
 
-export default InformacionTarea;
+export default TaskInformation;
