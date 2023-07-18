@@ -26,17 +26,20 @@ import TaskInformation from "layouts/tasks/components/TaskInformation";
 import CreateTask from "../tasks/components/CreateTask";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 function Tasks() {
 
   const [tasks, setTasks] = useState([])
+  const [task, setTask] = useState(null)
+
+
 
   
- 
   const createTask = (task) => {
       setTasks([...tasks,task])
+      setTask(task)
   }
 
   return (
@@ -45,19 +48,22 @@ function Tasks() {
       <ArgonBox mt={4} >
         {/* <BaseLayout stickNavbar/> */}
         <ArgonBox mb={3}>
+
           <Grid container display="flex" justifyContent="space-around" alignItems="start">
      
-                <Grid item  xs={12}  md={5}>
-                  <TaskList tasks={tasks}/>
-                </Grid>         
-                <Grid item xs={12} md={5}>
-                  <TaskInformation />
-                </Grid>
-                <Grid item xs={12} md={5}>
-                   <CreateTask createTask={createTask}/>
-                </Grid>
-
-                
+                  <Grid item  xs={12}  md={5}>
+                    <TaskList tasks={tasks} setTask={setTask}/>
+                  </Grid>     
+                {            
+                  task ?  (   
+                      <Grid item xs={12} md={5}>
+                          <TaskInformation task={task} tasks={tasks} setTasks={setTasks} setTask={setTask}/>
+                      </Grid> 
+                  )
+                  :  <Grid item xs={12} md={5}>
+                          <CreateTask createTask={createTask}/>
+                      </Grid>
+                }
           </Grid>
         </ArgonBox>
       </ArgonBox>

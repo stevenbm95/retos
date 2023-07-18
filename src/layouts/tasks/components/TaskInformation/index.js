@@ -22,10 +22,49 @@ import ArgonTypography from "components/ArgonTypography";
 
 // Billing page components
 import Task from "layouts/tasks/components/Task";
+import { useEffect, useRef, useState } from "react";
 
-function TaskInformation() {
+function TaskInformation({task,tasks,setTasks,setTask}) {
+ 
+  const {id,name,description,state} = task
+  const objetoRef = useRef(task.id);
+  const ultimoValorRef = useRef({});
+
+  useEffect(() => {
+    // Guardar el último valor del objeto cuando cambie
+    ultimoValorRef.current.id = objetoRef.current.id;
+    compararUltimoValor()
+  }, [objetoRef.current.id]);
+
+
+
+
+
+  const compararUltimoValor = () => {
+
+  if (ultimoValorRef.current.id) {
+    // Comparar el último valor con el valor actual del objeto
+    if (ultimoValorRef.current.id === objetoRef.current.id) {
+      // console.log('El valor del objeto no ha cambiado');
+      // console.log(ultimoValorRef.current.id)
+      // console.log(objetoRef.current.id)
+
+    } else {
+      // console.log('El valor del objeto ha cambiado');
+      // console.log(ultimoValorRef.current.id)
+      //  console.log(objetoRef.current.id)
+
+    }
+  }
+  
+  };
+
+
+
   return (
-    <Card id="delete-account">
+
+
+    <Card id={id} ref={objetoRef}>
       <ArgonBox pt={3} px={2}>
         <ArgonTypography variant="h6" textTransform="capitalize" fontWeight="medium">
         Task Information
@@ -34,10 +73,15 @@ function TaskInformation() {
       <ArgonBox pt={1} pb={2} px={2}>
         <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
           <Task
-            name="Aprender React"
-            company="Aprender React"
-            email="Aplicar Cambios en la plantilla"
-            vat="Estado"
+            tasks={tasks}
+            setTasks={setTasks}
+            id={id}
+            title={name}
+            name={name}
+            description={description}
+            state={state}
+            task={task}
+            setTask={setTask}
           />
         </ArgonBox>
       </ArgonBox>

@@ -27,16 +27,26 @@ import ArgonButton from "components/ArgonButton";
 // Argon Dashboard 2 MUI base styles
 import borders from "assets/theme/base/borders";
 
-// Images
-import masterCardLogo from "assets/images/logos/mastercard.png";
-import visaLogo from "assets/images/logos/visa.png";
-import CrearTarea from "../CreateTask";
+import { useEffect, useRef, useState } from "react";
 
-function TaskList({tasks}) {
+function TaskList({tasks,setTask}) {
+  
   const { borderWidth, borderColor } = borders;
 
+
+
+  const handleSelectTask = (task) => {
+      setTask(task)
+      // compararUltimoValor()
+  }
+
+
+
   return (
-    <Card id="delete-account">
+    <Card>
+        {/* <div }>
+          <p>Elemento</p>
+        </div> */}
       <ArgonBox pt={2} px={2} pb={2}  display="flex" flexDirection="column" justifyContent="space-between" alignItems="center">
         <ArgonTypography variant="h6"  fontWeight="medium">
           Lista De Tareas
@@ -46,18 +56,25 @@ function TaskList({tasks}) {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12}>
               {
-                  tasks.map(({id, name})=>(
+                  tasks.map((task)=>(
                     <ArgonBox
+                    // ref={objetoRef}
+                    id={task.id}
                     border={`${borderWidth[1]} solid ${borderColor}`}
                     borderRadius="lg"
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center"
                     p={2}
-                    key={id}
+                    mb={1}
+                    key={task.id}
                     sx={{ cursor: "pointer" }}
+                    onClick={()=>{
+                      handleSelectTask(task)
+                   
+                    }}
                   >
-                      <ArgonBox ml="auto" lineHeight={0}>
+                      <ArgonBox lineHeight={0}>
                         <Tooltip title="Select Task" placement="top">
                             <Icon fontSize="small">
                               check
@@ -65,7 +82,7 @@ function TaskList({tasks}) {
                         </Tooltip>
                       </ArgonBox> 
                         <ArgonTypography variant="h6" fontWeight="medium" >
-                        {name}
+                        {task.name}
                         </ArgonTypography>                  
                                       
                 </ArgonBox> 
@@ -76,7 +93,7 @@ function TaskList({tasks}) {
           </Grid>
         </ArgonBox>
         
-        <ArgonButton variant="gradient" color="dark" >
+        <ArgonButton variant="gradient" color="dark" onClick={()=>{setTask(null)}} >
               <Icon sx={{ fontWeight: "bold" }}>add</Icon>
               &nbsp;Agregar Nueva Tarea
         </ArgonButton>

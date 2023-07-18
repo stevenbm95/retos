@@ -1,5 +1,5 @@
 
-import { Switch } from '@mui/material'
+import { Card, Switch } from '@mui/material'
 import ArgonBox from 'components/ArgonBox'
 import ArgonButton from 'components/ArgonButton'
 import ArgonInput from 'components/ArgonInput'
@@ -38,8 +38,8 @@ export default function CreateTask({createTask}) {
   }
     
   return (
-    
-    <ArgonBox component="form" role="form">
+    <Card >
+    <ArgonBox component="form" role="form" pt={2} px={2} pb={2}>
          <ArgonTypography textAlign="center" fontWeight="regular" mb={2} >
           Create Task
         </ArgonTypography>
@@ -53,7 +53,7 @@ export default function CreateTask({createTask}) {
       </ArgonBox>
       <ArgonBox mb={2}>
         <ArgonInput 
-            type="textarea" 
+            type="text" 
             placeholder="Task description" 
             size="large" 
             value={description} 
@@ -66,5 +66,6 @@ export default function CreateTask({createTask}) {
         </ArgonButton>
       </ArgonBox>
     </ArgonBox>
+    </Card>
   )
 }
