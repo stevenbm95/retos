@@ -25,24 +25,29 @@ import ArgonTypography from "components/ArgonTypography";
 import ArgonButton from "components/ArgonButton";
 
 // Argon Dashboard 2 MUI contexts
-import { useArgonController } from "context";
+import { useArgonController,setTasks,setTask } from "context";
 import { useEffect, useState } from "react";
 import ArgonInput from "components/ArgonInput";
 import ButtonsTasks from "../ButtonsTasks";
 
-function Task({ id,title,name, description, state, noGutter, task, tasks , setTasks,setTask}) {
-  const [controller] = useArgonController();
-  const { darkMode } = controller;
+function Task() {
+ 
+  const [controller,dispatch] = useArgonController();
+  const {tasks,task, darkMode} = controller;
+
+  const { id,name, description, state, noGutter} = task
 
   const [isEdit, setIsEdit] = useState(false)
 
+
+ 
   const [nameUpd, setNameUpd] = useState(name)
   const [descriptionUpd, setDescriptionUpd] = useState(description)
 
   useEffect(() => {
     setNameUpd(name)
     setDescriptionUpd(description)
-    setTask(task)
+    // setTask(dispatch, {...task,task})
   }, [task])
   
 
@@ -54,15 +59,16 @@ function Task({ id,title,name, description, state, noGutter, task, tasks , setTa
   }
 
   const updateTask = (nameUpd,descriptionUpd) =>{ 
-    if(isEdit){
-      const updateTasks = tasks.map((t)=>{
-          if(t.id === id){
-              return {...t, name: nameUpd, description: descriptionUpd}
-            }         
-            
-        return t
-      })
-      setTasks(updateTasks)		
+            if(isEdit){
+            const updateTasks = tasks.map((t)=>{
+                if(t.id === id){
+                    return {...t, title: nameUpd, name: nameUpd, description: descriptionUpd}
+                    }         
+                    
+                return t
+            })
+
+        setTasks(dispatch,[...updateTasks])		
     }
     }
 
@@ -70,20 +76,20 @@ function Task({ id,title,name, description, state, noGutter, task, tasks , setTa
           const updateTasks = tasks.map((t)=>{
             if(t.id === id){
                 const newState = {...t, state: !state }
-                setTask(newState)                
+                setTask(dispatch,newState)                
                 return newState
               }      
               
           return t
         })
-        setTasks(updateTasks)
+        setTasks(dispatch,[...updateTasks])
         
      }
 
     const removeTask = (id) =>{ 
       const updateTasks = tasks.filter((newTasks) => newTasks.id !== id )
-      setTasks(updateTasks);
-      setTask(null)
+      setTasks(dispatch,updateTasks);
+      setTask(dispatch,{})
   
     }
 
@@ -109,10 +115,6 @@ function Task({ id,title,name, description, state, noGutter, task, tasks , setTa
           flexDirection={{ xs: "column", sm: "row" }}
           mb={1}
         >
-
-            <ArgonTypography variant="button" fontWeight="medium" textTransform="capitalize">
-              {title}
-            </ArgonTypography>
         </ArgonBox>
 
          
@@ -188,18 +190,17 @@ function Task({ id,title,name, description, state, noGutter, task, tasks , setTa
   );
 }
 
-// Setting default values for the props of Bill
-Task.defaultProps = {
-  noGutter: false,
-};
+// // Setting default values for the props of Bill
+// Task.defaultProps = {
+//   noGutter: false,
+// };
 
-// Typechecking props for the Bill
-Task.propTypes = {
-  title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  state: PropTypes.bool.isRequired,
-  noGutter: PropTypes.bool,
-};
+// // Typechecking props for the Bill
+// Task.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired,
+//   state: PropTypes.bool.isRequired,
+//   noGutter: PropTypes.bool,
+// };
 
 export default Task;

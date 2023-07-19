@@ -27,26 +27,19 @@ import ArgonButton from "components/ArgonButton";
 // Argon Dashboard 2 MUI base styles
 import borders from "assets/theme/base/borders";
 
-import { useEffect, useRef, useState } from "react";
+import { useArgonController,setTask } from "context";
 
-function TaskList({tasks,setTask}) {
+function TaskList() {
   
-  const { borderWidth, borderColor } = borders;
+    const { borderWidth, borderColor } = borders;
+    const [controller, dispatch] = useArgonController();
+    const {tasks} = controller;
 
-
-
-  const handleSelectTask = (task) => {
-      setTask(task)
-      // compararUltimoValor()
-  }
-
-
+    const handleSelectTask = (task) => setTask(dispatch,{...task,task})
+    const handleNewTask = () => setTask(dispatch,{})
 
   return (
     <Card>
-        {/* <div }>
-          <p>Elemento</p>
-        </div> */}
       <ArgonBox pt={2} px={2} pb={2}  display="flex" flexDirection="column" justifyContent="space-between" alignItems="center">
         <ArgonTypography variant="h6"  fontWeight="medium">
           Lista De Tareas
@@ -58,9 +51,9 @@ function TaskList({tasks,setTask}) {
               {
                   tasks.map((task)=>(
                     <ArgonBox
-                    // ref={objetoRef}
                     id={task.id}
                     border={`${borderWidth[1]} solid ${borderColor}`}
+                    className="activeTask"
                     borderRadius="lg"
                     display="flex"
                     justifyContent="space-between"
@@ -93,7 +86,7 @@ function TaskList({tasks,setTask}) {
           </Grid>
         </ArgonBox>
         
-        <ArgonButton variant="gradient" color="dark" onClick={()=>{setTask(null)}} >
+        <ArgonButton variant="gradient" color="dark" onClick={()=>{handleNewTask()}} >
               <Icon sx={{ fontWeight: "bold" }}>add</Icon>
               &nbsp;Agregar Nueva Tarea
         </ArgonButton>

@@ -28,19 +28,27 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useEffect, useRef, useState } from "react";
 
+import { useArgonController, setTasks,setTask } from "context";
+
 
 function Tasks() {
 
-  const [tasks, setTasks] = useState([])
-  const [task, setTask] = useState(null)
+  const [controller, dispatch] = useArgonController();
 
-
+  const {tasks,task} = controller;
+  // const [tasks, setTasks] = useState([])
+  // const [task, setTask] = useState(null)
 
   
-  const createTask = (task) => {
-      setTasks([...tasks,task])
-      setTask(task)
-  }
+  // const createTask = (task) =>  setTasks( dispatch, [...tasks,task] )
+  //  {
+  //     // const newTasks = 
+  //     // const newTask = 
+  //     // const setTasks = (dispatch, value) => dispatch({ type: "TASKS", value });
+  //     // const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
+     
+  //     setTask(dispatch, {...task,task} )
+  // }
 
   return (
     <DashboardLayout >
@@ -50,18 +58,18 @@ function Tasks() {
         <ArgonBox mb={3}>
 
           <Grid container display="flex" justifyContent="space-around" alignItems="start">
-     
-                  <Grid item  xs={12}  md={5}>
-                    <TaskList tasks={tasks} setTask={setTask}/>
-                  </Grid>     
+                
+            <Grid item  xs={12}  md={5}>
+              <TaskList/>
+            </Grid>     
                 {            
-                  task ?  (   
+                 Object.entries(task).length > 0 ?  (   
                       <Grid item xs={12} md={5}>
-                          <TaskInformation task={task} tasks={tasks} setTasks={setTasks} setTask={setTask}/>
+                          <TaskInformation/>
                       </Grid> 
                   )
                   :  <Grid item xs={12} md={5}>
-                          <CreateTask createTask={createTask}/>
+                          <CreateTask />
                       </Grid>
                 }
           </Grid>

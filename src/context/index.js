@@ -14,8 +14,8 @@ Coded by www.creative-tim.com
 */
 
 /**
-  This file is used for controlling the global states of the components,
-  you can customize the states for the different components here.
+	This file is used for controlling the global states of the components,
+	you can customize the states for the different components here.
 */
 
 import { createContext, useContext, useReducer, useMemo } from "react";
@@ -31,78 +31,88 @@ Argon.displayName = "ArgonContext";
 
 // Argon Dashboard 2 MUI reducer
 function reducer(state, action) {
-  switch (action.type) {
-    case "MINI_SIDENAV": {
-      return { ...state, miniSidenav: action.value };
-    }
-    case "DARK_SIDENAV": {
-      return { ...state, darkSidenav: action.value };
-    }
-    case "SIDENAV_COLOR": {
-      return { ...state, sidenavColor: action.value };
-    }
-    case "TRANSPARENT_NAVBAR": {
-      return { ...state, transparentNavbar: action.value };
-    }
-    case "FIXED_NAVBAR": {
-      return { ...state, fixedNavbar: action.value };
-    }
-    case "OPEN_CONFIGURATOR": {
-      return { ...state, openConfigurator: action.value };
-    }
-    case "DIRECTION": {
-      return { ...state, direction: action.value };
-    }
-    case "LAYOUT": {
-      return { ...state, layout: action.value };
-    }
-    case "DARK_MODE": {
-      return { ...state, darkMode: action.value };
-    }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`);
-    }
-  }
+	switch (action.type) {
+		case "TASKS": {
+			return { ...state, tasks: action.value };
+		}
+		case "TASK": {
+			return { ...state, task: action.value };
+		}
+		case "MINI_SIDENAV": {
+			return { ...state, miniSidenav: action.value };
+		}
+		case "DARK_SIDENAV": {
+			return { ...state, darkSidenav: action.value };
+		}
+		case "SIDENAV_COLOR": {
+			return { ...state, sidenavColor: action.value };
+		}
+		case "TRANSPARENT_NAVBAR": {
+			return { ...state, transparentNavbar: action.value };
+		}
+		case "FIXED_NAVBAR": {
+			return { ...state, fixedNavbar: action.value };
+		}
+		case "OPEN_CONFIGURATOR": {
+			return { ...state, openConfigurator: action.value };
+		}
+		case "DIRECTION": {
+			return { ...state, direction: action.value };
+		}
+		case "LAYOUT": {
+			return { ...state, layout: action.value };
+		}
+		case "DARK_MODE": {
+			return { ...state, darkMode: action.value };
+		}
+		default: {
+			throw new Error(`Unhandled action type: ${action.type}`);
+		}
+	}
 }
 
 // Argon Dashboard 2 MUI context provider
 function ArgonControllerProvider({ children }) {
-  const initialState = {
-    miniSidenav: false,
-    darkSidenav: false,
-    sidenavColor: null,
-    transparentNavbar: true,
-    fixedNavbar: false,
-    openConfigurator: false,
-    direction: "ltr",
-    layout: "dashboard",
-    darkMode: false,
-  };
+	const initialState = {
+		tasks: [],
+		task: {},
+		miniSidenav: false,
+		darkSidenav: false,
+		sidenavColor: null,
+		transparentNavbar: true,
+		fixedNavbar: false,
+		openConfigurator: false,
+		direction: "ltr",
+		layout: "dashboard",
+		darkMode: false,
+	};
 
-  const [controller, dispatch] = useReducer(reducer, initialState);
+	const [controller, dispatch] = useReducer(reducer, initialState);
 
-  const value = useMemo(() => [controller, dispatch], [controller, dispatch]);
+	const value = useMemo(() => [controller, dispatch], [controller, dispatch]);
 
-  return <Argon.Provider value={value}>{children}</Argon.Provider>;
+	return <Argon.Provider value={value}>{children}</Argon.Provider>;
 }
 
 // Argon Dashboard 2 MUI custom hook for using context
 function useArgonController() {
-  const context = useContext(Argon);
+	const context = useContext(Argon);
 
-  if (!context) {
-    throw new Error("useArgonController should be used inside the ArgonControllerProvider.");
-  }
+	if (!context) {
+		throw new Error("useArgonController should be used inside the ArgonControllerProvider.");
+	}
 
-  return context;
+	return context;
 }
 
 // Typechecking props for the ArgonControllerProvider
 ArgonControllerProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+	children: PropTypes.node.isRequired,
 };
 
 // Context module functions
+const setTasks = (dispatch, value) => dispatch({ type: "TASKS", value });
+const setTask = (dispatch, value) => dispatch({ type: "TASK", value });
 const setMiniSidenav = (dispatch, value) => dispatch({ type: "MINI_SIDENAV", value });
 const setDarkSidenav = (dispatch, value) => dispatch({ type: "DARK_SIDENAV", value });
 const setSidenavColor = (dispatch, value) => dispatch({ type: "SIDENAV_COLOR", value });
@@ -114,15 +124,17 @@ const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
 const setDarkMode = (dispatch, value) => dispatch({ type: "DARK_MODE", value });
 
 export {
-  ArgonControllerProvider,
-  useArgonController,
-  setMiniSidenav,
-  setDarkSidenav,
-  setSidenavColor,
-  setTransparentNavbar,
-  setFixedNavbar,
-  setOpenConfigurator,
-  setDirection,
-  setLayout,
-  setDarkMode,
+	ArgonControllerProvider,
+	useArgonController,
+	setTasks,
+	setTask,
+	setMiniSidenav,
+	setDarkSidenav,
+	setSidenavColor,
+	setTransparentNavbar,
+	setFixedNavbar,
+	setOpenConfigurator,
+	setDirection,
+	setLayout,
+	setDarkMode,
 };

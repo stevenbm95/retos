@@ -7,36 +7,44 @@ import ArgonTypography from 'components/ArgonTypography'
 import IllustrationLayout from 'layouts/authentication/components/IllustrationLayout'
 import { useState } from 'react'
 import {v4 as generarId} from 'uuid';
+import { useArgonController, setTasks,setTask } from "context";
 
+export default function CreateTask() {
 
-export default function CreateTask({createTask}) {
+  const [controller, dispatch] = useArgonController();
+  const {tasks} = controller;
 
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
- 
 
-  
+
   const isInvalid =() => (name.trim().length < 3 || description.trim().length < 3 ?  true : false)
-  
-  
-  
+
+  const createTask = (task) => setTasks( dispatch, [...tasks,task] );
+
+  const sendTask = (task) => setTask(dispatch, {...task,task})
+
+
   const onChangeName = (name) => {
     setName(name)
-  } 
+  }
   const onChangeDescription = (description) => {
     setDescription(description)
-  }  
-  
-  const handleCreateTask = (e) => {
-    e.preventDefault()
-    createTask({
-      id: generarId(),
-      name,
-      description,
-      state: false
-    })
   }
-    
+
+  const handleCreateTask = (e) => {
+    const task = {
+                  id: generarId(),
+                  name,
+                  description,
+                  state: false
+                }
+
+    e.preventDefault()
+    createTask(task)
+    sendTask(task)
+  }
+
   return (
     <Card >
     <ArgonBox component="form" role="form" pt={2} px={2} pb={2}>
@@ -44,20 +52,20 @@ export default function CreateTask({createTask}) {
           Create Task
         </ArgonTypography>
       <ArgonBox mb={2}>
-        <ArgonInput 
-            type="text" 
-            placeholder="Task Name" 
-            size="large" 
+        <ArgonInput
+            type="text"
+            placeholder="Task Name"
+            size="large"
             value={name}
             onChange={(e)=> onChangeName(e.target.value)} />
       </ArgonBox>
       <ArgonBox mb={2}>
-        <ArgonInput 
-            type="text" 
-            placeholder="Task description" 
-            size="large" 
-            value={description} 
-           
+        <ArgonInput
+            type="text"
+            placeholder="Task description"
+            size="large"
+            value={description}
+
             onChange={(e)=>onChangeDescription(e.target.value) } />
       </ArgonBox>
       <ArgonBox mt={4} mb={1}>
