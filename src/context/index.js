@@ -38,6 +38,9 @@ function reducer(state, action) {
 		case "TASK": {
 			return { ...state, task: action.value };
 		}
+        case "SHOW_COMPONENT": {
+			return { ...state, showComponent: action.value };
+		}
 		case "MINI_SIDENAV": {
 			return { ...state, miniSidenav: action.value };
 		}
@@ -76,6 +79,7 @@ function ArgonControllerProvider({ children }) {
 	const initialState = {
 		tasks: [],
 		task: {},
+        showComponent: false,
 		miniSidenav: false,
 		darkSidenav: false,
 		sidenavColor: null,
@@ -113,6 +117,7 @@ ArgonControllerProvider.propTypes = {
 // Context module functions
 const setTasks = (dispatch, value) => dispatch({ type: "TASKS", value });
 const setTask = (dispatch, value) => dispatch({ type: "TASK", value });
+const setShowComponent = (dispatch, value) => dispatch({ type: "SHOW_COMPONENT", value });
 const setMiniSidenav = (dispatch, value) => dispatch({ type: "MINI_SIDENAV", value });
 const setDarkSidenav = (dispatch, value) => dispatch({ type: "DARK_SIDENAV", value });
 const setSidenavColor = (dispatch, value) => dispatch({ type: "SIDENAV_COLOR", value });
@@ -128,6 +133,7 @@ export {
 	useArgonController,
 	setTasks,
 	setTask,
+    setShowComponent,
 	setMiniSidenav,
 	setDarkSidenav,
 	setSidenavColor,

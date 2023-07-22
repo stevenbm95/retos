@@ -23,17 +23,33 @@ import ArgonTypography from "components/ArgonTypography";
 // Billing page components
 import Task from "layouts/tasks/components/Task";
 
-import { useArgonController } from "context";
+import { useArgonController,setTask } from "context";
+import { useEffect, useState } from "react";
 
 function TaskInformation() {
   
-  const [controller, dispatch] = useArgonController();
+  const [controller,dispatch] = useArgonController();
   const {task} = controller;
   const {id} = task
+
+  const [idTask, setIdTask] = useState(null)
+
+
+  useEffect(() => {   
+    setIdTask(id)
+
+    if(id === idTask) {
+        setIdTask(null)
+        setTask(dispatch,{})    
+    }
+     
+  }, [id])
   
-  return (
 
+ 
 
+  
+  return (  
     <Card id={id}>
       <ArgonBox pt={3} px={2}>
         <ArgonTypography variant="h6" textTransform="capitalize" fontWeight="medium">
@@ -42,7 +58,14 @@ function TaskInformation() {
       </ArgonBox>
       <ArgonBox pt={1} pb={2} px={2}>
         <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Task />
+   
+            {idTask ? 
+                <Task /> :
+                <ArgonTypography variant="h6" textTransform="capitalize" fontWeight="medium">
+               Selecciona tarea
+                </ArgonTypography>
+            
+        }
         </ArgonBox>
       </ArgonBox>
     </Card>

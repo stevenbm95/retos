@@ -28,29 +28,17 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useEffect, useRef, useState } from "react";
 
-import { useArgonController, setTasks,setTask } from "context";
+import { useArgonController } from "context";
+import ArgonTypography from "components/ArgonTypography";
 
 
 function Tasks() {
 
-  const [controller, dispatch] = useArgonController();
+  const [controller] = useArgonController();
+  const {showComponent} = controller
 
-  const {tasks,task} = controller;
-  // const [tasks, setTasks] = useState([])
-  // const [task, setTask] = useState(null)
 
-  
-  // const createTask = (task) =>  setTasks( dispatch, [...tasks,task] )
-  //  {
-  //     // const newTasks = 
-  //     // const newTask = 
-  //     // const setTasks = (dispatch, value) => dispatch({ type: "TASKS", value });
-  //     // const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
-     
-  //     setTask(dispatch, {...task,task} )
-  // }
-
-  return (
+  return ( 
     <DashboardLayout >
     <DashboardNavbar />
       <ArgonBox mt={4} >
@@ -61,17 +49,10 @@ function Tasks() {
                 
             <Grid item  xs={12}  md={5}>
               <TaskList/>
-            </Grid>     
-                {            
-                 Object.entries(task).length > 0 ?  (   
-                      <Grid item xs={12} md={5}>
-                          <TaskInformation/>
-                      </Grid> 
-                  )
-                  :  <Grid item xs={12} md={5}>
-                          <CreateTask />
-                      </Grid>
-                }
+            </Grid>   
+            <Grid item xs={12} md={5}>
+                    {!showComponent ? <CreateTask />: <TaskInformation/>}  
+            </Grid> 
           </Grid>
         </ArgonBox>
       </ArgonBox>

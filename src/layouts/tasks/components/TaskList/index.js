@@ -27,72 +27,97 @@ import ArgonButton from "components/ArgonButton";
 // Argon Dashboard 2 MUI base styles
 import borders from "assets/theme/base/borders";
 
-import { useArgonController,setTask } from "context";
+import { useArgonController,setTask,setShowComponent } from "context";
+import { useState } from "react";
 
 function TaskList() {
   
     const { borderWidth, borderColor } = borders;
     const [controller, dispatch] = useArgonController();
-    const {tasks} = controller;
+    const {tasks,task,showComponent} = controller;
 
-    const handleSelectTask = (task) => setTask(dispatch,{...task,task})
-    const handleNewTask = () => setTask(dispatch,{})
+
+    const [styles, setStyles] = useState(null)  
+
+    // const handleSelectTask = (t) => {
+    //     t.id === task.id ? setTask(dispatch,{}) : setTask(dispatch,{...t,t})
+    
+    // }
+
+    const handleSelectTask = (t) => {
+       if( t.id === task.id)  {
+        setStyles(t.id
+            )
+        setTask(dispatch,{})} else  {setTask(dispatch,{...t,t})}
+    
+    }
+    const handleNewTask = () => {
+                                
+                                    setShowComponent(dispatch,false)
+                                    setTask(dispatch,{})
+                                }
+
+   
+
 
   return (
-    <Card>
-      <ArgonBox pt={2} px={2} pb={2}  display="flex" flexDirection="column" justifyContent="space-between" alignItems="center">
-        <ArgonTypography variant="h6"  fontWeight="medium">
-          Lista De Tareas
-        </ArgonTypography>
-  
-        <ArgonBox p={2}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={12}>
-              {
-                  tasks.map((task)=>(
-                    <ArgonBox
-                    id={task.id}
-                    border={`${borderWidth[1]} solid ${borderColor}`}
-                    className="activeTask"
-                    borderRadius="lg"
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    p={2}
-                    mb={1}
-                    key={task.id}
-                    sx={{ cursor: "pointer" }}
-                    onClick={()=>{
-                      handleSelectTask(task)
-                   
-                    }}
-                  >
-                      <ArgonBox lineHeight={0}>
-                        <Tooltip title="Select Task" placement="top">
-                            <Icon fontSize="small">
-                              check
-                            </Icon>
-                        </Tooltip>
-                      </ArgonBox> 
-                        <ArgonTypography variant="h6" fontWeight="medium" >
-                        {task.name}
-                        </ArgonTypography>                  
-                                      
-                </ArgonBox> 
-                  ))
-              }
+            <Card>
+            <ArgonBox pt={2} px={2} pb={2}  display="flex" flexDirection="column" justifyContent="space-between" alignItems="center">
+                <ArgonTypography variant="h6"  fontWeight="medium">
+                Lista De Tareas
+                </ArgonTypography>
         
-              </Grid>
-          </Grid>
-        </ArgonBox>
-        
-        <ArgonButton variant="gradient" color="dark" onClick={()=>{handleNewTask()}} >
-              <Icon sx={{ fontWeight: "bold" }}>add</Icon>
-              &nbsp;Agregar Nueva Tarea
-        </ArgonButton>
-      </ArgonBox>
+                <ArgonBox p={2}>
+                <Grid container spacing={3}>
+                    <Grid item className="item" xs={12} md={12}>
+                    {
+                        tasks.map((task)=>(
+                            <ArgonBox
+                            id={task.id}
+                            border={`${borderWidth[1]} solid ${borderColor}`}
+                            // className={styles ? '' : 'activeTask'}
+                            style={task.id === styles ? {opacity: '0.5'} : {
+                                
+                            }}
+                            borderRadius="lg"
+                            display="flex"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            p={2}
+                            mb={1}
+                            key={task.id}
+                            sx={{ cursor: "pointer" }}
+                            onClick={()=>{
+                            handleSelectTask(task)
+                        
+                            }}
+                        >
+                            <ArgonBox lineHeight={0}>
+                                <Tooltip title="Select Task" placement="top">
+                                    <Icon fontSize="small">
+                                    check
+                                    </Icon>
+                                </Tooltip>
+                            </ArgonBox> 
+                                <ArgonTypography variant="h6" fontWeight="medium" >
+                                {task.name}
+                                </ArgonTypography>                  
+                                            
+                        </ArgonBox> 
+                        ))
+                    }
+                
+                    </Grid>
+                </Grid>
+                </ArgonBox>
+                
+                <ArgonButton variant="gradient" color="dark" onClick={()=>{ handleNewTask() }} >
+                    <Icon sx={{ fontWeight: "bold" }}>add</Icon>
+                    &nbsp;Agregar Nueva Tarea
+                </ArgonButton>
+            </ArgonBox>
 
-    </Card>
+            </Card> 
   );
 }
 

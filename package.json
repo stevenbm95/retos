@@ -30,6 +30,7 @@
     "react-countup": "6.4.2",
     "react-dom": ">=16.8.0",
     "react-github-btn": "1.4.0",
+    "react-hook-form": "^7.45.2",
     "react-perfect-scrollbar": "1.5.8",
     "react-router-dom": "6.11.1",
     "react-scripts": "5.0.1",
