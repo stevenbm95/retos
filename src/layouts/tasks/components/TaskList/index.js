@@ -27,8 +27,10 @@ import ArgonButton from "components/ArgonButton";
 // Argon Dashboard 2 MUI base styles
 import borders from "assets/theme/base/borders";
 
-import { useArgonController,setTask,setShowComponent } from "context";
+import { useArgonController,setTask,setShowComponent,setTasks } from "context";
 import { useState } from "react";
+import { Checkbox } from "@mui/material";
+import { CheckBoxOutlineBlankRounded, CheckBoxRounded, CheckCircle, CheckCircleOutline, CheckCircleOutlineRounded, CheckCircleOutlineSharp, CheckCircleRounded, CheckCircleSharp, CheckCircleTwoTone, CheckRounded, Circle, CircleRounded } from "@mui/icons-material";
 
 function TaskList() {
   
@@ -36,26 +38,44 @@ function TaskList() {
     const [controller, dispatch] = useArgonController();
     const {tasks,task,showComponent} = controller;
 
+    const {state} = task
 
-    const [styles, setStyles] = useState(null)  
-
+ 
     // const handleSelectTask = (t) => {
     //     t.id === task.id ? setTask(dispatch,{}) : setTask(dispatch,{...t,t})
     
     // }
 
+    
     const handleSelectTask = (t) => {
-       if( t.id === task.id)  {
-        setStyles(t.id
-            )
-        setTask(dispatch,{})} else  {setTask(dispatch,{...t,t})}
+       if( t.id === task.id)  {            
+            setTask(dispatch,{})
+
+        } 
+        else  {
+            setTask(dispatch,{...t,t})
+                }
     
     }
-    const handleNewTask = () => {
-                                
+    const handleNewTask = () => {                                
                                     setShowComponent(dispatch,false)
                                     setTask(dispatch,{})
                                 }
+
+
+    const changeStateTask = (id) =>{ 
+        const updateTasks = tasks.map((t)=>{
+            if(t.id === id){
+                const newState = {...t, state: !state }
+                setTask(dispatch,newState)                
+                return newState
+            }      
+            
+        return t
+        })
+        setTasks(dispatch,[...updateTasks])
+        
+    }
 
    
 
@@ -69,39 +89,35 @@ function TaskList() {
         
                 <ArgonBox p={2}>
                 <Grid container spacing={3}>
-                    <Grid item className="item" xs={12} md={12}>
+                    <Grid item className="List"  xs={12} md={12}>
                     {
-                        tasks.map((task)=>(
+                        tasks.map((t)=>(
                             <ArgonBox
-                            id={task.id}
+                            id={t.id}
                             border={`${borderWidth[1]} solid ${borderColor}`}
-                            // className={styles ? '' : 'activeTask'}
-                            style={task.id === styles ? {opacity: '0.5'} : {
-                                
-                            }}
+                            className={ t.state ? 'Completed' : null}
                             borderRadius="lg"
                             display="flex"
-                            justifyContent="space-between"
                             alignItems="center"
                             p={2}
                             mb={1}
-                            key={task.id}
-                            sx={{ cursor: "pointer" }}
-                            onClick={()=>{
-                            handleSelectTask(task)
-                        
-                            }}
+                            key={t.id}
+                            sx={ t.id === task.id &&  { backgroundColor: '#d6d8db', cursor: 'pointer'}}
+                           
                         >
-                            <ArgonBox lineHeight={0}>
-                                <Tooltip title="Select Task" placement="top">
-                                    <Icon fontSize="small">
-                                    check
-                                    </Icon>
-                                </Tooltip>
-                            </ArgonBox> 
-                                <ArgonTypography variant="h6" fontWeight="medium" >
-                                {task.name}
-                                </ArgonTypography>                  
+                           {t.state ? <CheckCircle mr={2} onClick={()=>{changeStateTask(t.id)}}/> : <Circle mr={2} onClick={()=>{changeStateTask(t.id)}} /> }                            
+                            <ArgonTypography  
+                                className={ t.state ? 'Completed' : null}
+                                sx={ t.id === task.id ?  { fontWeight: 'bold'} : { fontWeight: '400'}} 
+                                variant="h6"
+                                fontWeight="medium"
+                                onClick={()=>{
+                                    handleSelectTask(t)
+                                
+                                    }}
+                            >
+                            {t.name}
+                            </ArgonTypography>                  
                                             
                         </ArgonBox> 
                         ))

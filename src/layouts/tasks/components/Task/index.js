@@ -167,7 +167,7 @@ function Task() {
             
             <ArgonBox mr={1}>
               <ArgonButton variant="text" color="success" onClick={()=> { changeStateTask(id)}}>
-                <Icon>check</Icon>&nbsp; Completar
+                <Icon>check</Icon>&nbsp; {task.state ? 'Completado' : 'Completar'}
               </ArgonButton>
             </ArgonBox>
 

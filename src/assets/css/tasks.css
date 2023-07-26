@@ -1,4 +1,6 @@
 
-.item .activeTask{
-    opacity: .5;
+
+.List .Completed{
+    text-decoration:  line-through;
+    color: gray;
 }

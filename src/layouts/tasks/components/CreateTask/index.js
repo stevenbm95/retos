@@ -53,7 +53,7 @@ export default function CreateTask() {
 
   return (
     <Card >
-    <ArgonBox component="form" role="form" pt={2} px={2} pb={2}>
+    <ArgonBox component="form" role="form" pt={2} px={4} pb={3}>
          <ArgonTypography textAlign="center" fontWeight="regular" mb={2} >
           Create Task
         </ArgonTypography>

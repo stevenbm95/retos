@@ -45,10 +45,7 @@ function TaskInformation() {
      
   }, [id])
   
-
  
-
-  
   return (  
     <Card id={id}>
       <ArgonBox pt={3} px={2}>
