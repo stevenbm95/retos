@@ -27,10 +27,9 @@ import ArgonButton from "components/ArgonButton";
 // Argon Dashboard 2 MUI base styles
 import borders from "assets/theme/base/borders";
 
-import { useArgonController,setTask,setShowComponent,setTasks } from "context";
-import { useState } from "react";
-import { Checkbox } from "@mui/material";
-import { CheckBoxOutlineBlankRounded, CheckBoxRounded, CheckCircle, CheckCircleOutline, CheckCircleOutlineRounded, CheckCircleOutlineSharp, CheckCircleRounded, CheckCircleSharp, CheckCircleTwoTone, CheckRounded, Circle, CircleRounded } from "@mui/icons-material";
+import { useArgonController,setTask,setShowComponent,setTasks,setShowInfoTask } from "context";
+import { Circle, CheckCircle } from "@mui/icons-material";
+import { editTask } from "helpers/tasks/editTask";
 
 function TaskList() {
   
@@ -38,44 +37,28 @@ function TaskList() {
     const [controller, dispatch] = useArgonController();
     const {tasks,task,showComponent} = controller;
 
+    const {changeStateTask} = editTask()
+
     const {state} = task
 
- 
-    // const handleSelectTask = (t) => {
-    //     t.id === task.id ? setTask(dispatch,{}) : setTask(dispatch,{...t,t})
-    
-    // }
-
-    
     const handleSelectTask = (t) => {
-       if( t.id === task.id)  {            
+       if( t.id === task.id)  {                     
+            setShowInfoTask(dispatch,false) 
             setTask(dispatch,{})
-
         } 
         else  {
+            setShowInfoTask(dispatch,true) 
             setTask(dispatch,{...t,t})
                 }
     
     }
-    const handleNewTask = () => {                                
+    const handleNewTask = () => {                           
                                     setShowComponent(dispatch,false)
                                     setTask(dispatch,{})
                                 }
 
 
-    const changeStateTask = (id) =>{ 
-        const updateTasks = tasks.map((t)=>{
-            if(t.id === id){
-                const newState = {...t, state: !state }
-                setTask(dispatch,newState)                
-                return newState
-            }      
-            
-        return t
-        })
-        setTasks(dispatch,[...updateTasks])
-        
-    }
+    const handleChangeStateTask = () => changeStateTask()
 
    
 
@@ -98,22 +81,21 @@ function TaskList() {
                             className={ t.state ? 'Completed' : null}
                             borderRadius="lg"
                             display="flex"
-                            alignItems="center"
-                            p={2}
+                            alignItems="center"                        
                             mb={1}
                             key={t.id}
-                            sx={ t.id === task.id &&  { backgroundColor: '#d6d8db', cursor: 'pointer'}}
+                            sx={ t.id === task.id ?  { backgroundColor: '#d6d8db', cursor: 'pointer'} : { cursor: 'pointer'} }
                            
                         >
-                           {t.state ? <CheckCircle mr={2} onClick={()=>{changeStateTask(t.id)}}/> : <Circle mr={2} onClick={()=>{changeStateTask(t.id)}} /> }                            
+                           {t.state ? <CheckCircle sx={{marginLeft: '1rem'}} onClick={()=>{changeStateTask(t.id)}}/> : <Circle sx={{marginLeft: '1rem'}} onClick={()=>{changeStateTask(t.id)}} /> }                            
                             <ArgonTypography  
                                 className={ t.state ? 'Completed' : null}
                                 sx={ t.id === task.id ?  { fontWeight: 'bold'} : { fontWeight: '400'}} 
                                 variant="h6"
+                                p={2}
                                 fontWeight="medium"
                                 onClick={()=>{
-                                    handleSelectTask(t)
-                                
+                                    handleSelectTask(t)                                
                                     }}
                             >
                             {t.name}

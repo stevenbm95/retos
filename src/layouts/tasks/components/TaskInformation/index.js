@@ -23,22 +23,23 @@ import ArgonTypography from "components/ArgonTypography";
 // Billing page components
 import Task from "layouts/tasks/components/Task";
 
-import { useArgonController,setTask } from "context";
+import { useArgonController,setTask,setShowInfoTask } from "context";
 import { useEffect, useState } from "react";
 
 function TaskInformation() {
   
   const [controller,dispatch] = useArgonController();
-  const {task} = controller;
+  const {task,showInfoTask} = controller;
   const {id} = task
 
   const [idTask, setIdTask] = useState(null)
+  
 
 
   useEffect(() => {   
     setIdTask(id)
-
     if(id === idTask) {
+        setShowInfoTask(dispatch, false)
         setIdTask(null)
         setTask(dispatch,{})    
     }
@@ -56,7 +57,7 @@ function TaskInformation() {
       <ArgonBox pt={1} pb={2} px={2}>
         <ArgonBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
    
-            {idTask ? 
+            {showInfoTask ? 
                 <Task /> :
                 <ArgonTypography variant="h6" textTransform="capitalize" fontWeight="medium">
                Selecciona tarea

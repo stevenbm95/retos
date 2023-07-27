@@ -28,71 +28,40 @@ import ArgonButton from "components/ArgonButton";
 import { useArgonController,setTasks,setTask } from "context";
 import { useEffect, useState } from "react";
 import ArgonInput from "components/ArgonInput";
-import ButtonsTasks from "../ButtonsTasks";
+import BasicModal from "../Modal";
+import { editTask } from "helpers/tasks/editTask";
+// import { updateTask } from "helpers/tasks/editTask";
+// import { updateTask } from "helpers/tasks/editTask";
 
 function Task() {
  
-  const [controller,dispatch] = useArgonController();
-  const {tasks,task, darkMode} = controller;
+  const [controller] = useArgonController();
+  const {task, darkMode} = controller;
 
   const { id,name, description, state, noGutter} = task
-
+  
+  const {changeStateTask,updateTask} = editTask()
+  
   const [isEdit, setIsEdit] = useState(false)
-
-
- 
   const [nameUpd, setNameUpd] = useState(name)
   const [descriptionUpd, setDescriptionUpd] = useState(description)
 
   useEffect(() => {
     setNameUpd(name)
     setDescriptionUpd(description)
-    // setTask(dispatch, {...task,task})
   }, [task])
   
 
-  const onChangeNameUpd=(value) => {
-    setNameUpd(value)
-  }
-  const onChangeDescriptionUpd=(value) => {
-    setDescriptionUpd(value)
-  }
+  const onChangeNameUpd=(value) => setNameUpd(value)
 
-  const updateTask = (nameUpd,descriptionUpd) =>{ 
-            if(isEdit){
-            const updateTasks = tasks.map((t)=>{
-                if(t.id === id){
-                    return {...t, title: nameUpd, name: nameUpd, description: descriptionUpd}
-                    }         
-                    
-                return t
-            })
+  const onChangeDescriptionUpd=(value) => setDescriptionUpd(value)
 
-        setTasks(dispatch,[...updateTasks])		
-    }
-    }
+  const handleChangeStateTask = () => changeStateTask()
 
-    const changeStateTask = (id) =>{ 
-          const updateTasks = tasks.map((t)=>{
-            if(t.id === id){
-                const newState = {...t, state: !state }
-                setTask(dispatch,newState)                
-                return newState
-              }      
-              
-          return t
-        })
-        setTasks(dispatch,[...updateTasks])
-        
-     }
-
-    const removeTask = (id) =>{ 
-      const updateTasks = tasks.filter((newTasks) => newTasks.id !== id )
-      setTasks(dispatch,updateTasks);
-      setTask(dispatch,{})
-  
-    }
-
+  const handleUpdateTask = () => {
+                                    setIsEdit(!isEdit)
+                                    updateTask(nameUpd,descriptionUpd,isEdit)
+                                }
   return (
     <ArgonBox
       component="li"
@@ -162,27 +131,25 @@ function Task() {
             alignItems="center"
             mt={{ xs: 2, sm: 0, md: 2}}
             ml={{ xs: -1.5, sm: 0 }}
-          >
-
+        >
             
             <ArgonBox mr={1}>
-              <ArgonButton variant="text" color="success" onClick={()=> { changeStateTask(id)}}>
-                <Icon>check</Icon>&nbsp; {task.state ? 'Completado' : 'Completar'}
+              <ArgonButton variant="text" color="success" onClick={handleChangeStateTask}>
+                <Icon>check</Icon>&nbsp;{task.state ? 'Completado' : 'Completar'}
               </ArgonButton>
             </ArgonBox>
 
             <ArgonBox mr={1}>
-              <ArgonButton variant="text" color="dark" onClick={()=> {
-                                                                      updateTask(nameUpd,descriptionUpd)
-                                                                      setIsEdit(!isEdit)
-                                                                }}>
+              <ArgonButton variant="text" color="dark" onClick={handleUpdateTask}>
                 <Icon>edit</Icon>&nbsp;{isEdit ? 'Guardar' : 'Editar'}
               </ArgonButton>
             </ArgonBox>
             <ArgonBox mr={1}>
-              <ArgonButton variant="text" color="error" onClick={()=> { removeTask(id)}}>
-                <Icon>delete</Icon>&nbsp;Delete
+            {/* onClick={()=> { removeTask(id)}} */}
+              <ArgonButton variant="text" color="error" >
+                <Icon>delete</Icon><BasicModal/>              
               </ArgonButton>
+                
             </ArgonBox>
           </ArgonBox>
       </ArgonBox>

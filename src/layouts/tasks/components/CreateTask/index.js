@@ -7,7 +7,7 @@ import ArgonTypography from 'components/ArgonTypography'
 import IllustrationLayout from 'layouts/authentication/components/IllustrationLayout'
 import { useState } from 'react'
 import {v4 as generarId} from 'uuid';
-import { useArgonController, setTasks,setTask,setShowComponent } from "context";
+import { useArgonController, setTasks,setTask,setShowComponent,setShowInfoTask } from "context";
 
 export default function CreateTask() {
 
@@ -20,7 +20,9 @@ export default function CreateTask() {
 
   const isInvalid =() => (name.trim().length < 3 || description.trim().length < 3 ?  true : false)
 
-  const createTask = (task) => setTasks( dispatch, [...tasks,task] );
+  const createTask = (task) => {
+                    setShowInfoTask(dispatch,true)
+                    setTasks( dispatch, [...tasks,task] )};
 
   const sendTask = (task) => setTask(dispatch, {...task,task})
 

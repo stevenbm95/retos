@@ -26,16 +26,15 @@ import TaskInformation from "layouts/tasks/components/TaskInformation";
 import CreateTask from "../tasks/components/CreateTask";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import { useEffect, useRef, useState } from "react";
 
 import { useArgonController } from "context";
-import ArgonTypography from "components/ArgonTypography";
 
 
 function Tasks() {
 
   const [controller] = useArgonController();
   const {showComponent} = controller
+  
 
 
   return ( 
